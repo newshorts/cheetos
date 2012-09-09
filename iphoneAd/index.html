@@ -1,0 +1,36 @@
+<!-- 
+    Author: Mike Newell © 2012
+-->
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" src="css/style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="js/requestAnimationFrameShim.js"></script>
+        <script src="js/particle.js"></script>
+        <script>
+            (function($) {
+                $(window).load(function() {
+                    var _canvas = $('#canvas');
+                    
+                    var particle = new Particle();
+                    
+                    particle.init();
+                });
+            })(jQuery);
+        </script>
+    </head>
+    <body>
+        <div id="wrap">
+            <canvas id="canvas">
+                Sorry, your browser is old as shit and you need to upgrade.
+            </canvas>
+        </div>
+    </body>
+</html>
