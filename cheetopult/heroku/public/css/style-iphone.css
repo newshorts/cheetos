@@ -1,0 +1,171 @@
+/* 
+    Document   : style
+    Created on : Sep 8, 2012, 7:26:24 PM
+    Author     : mike_newell
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+@media screen and (max-device-width: 480px){
+/*--- iPhone only CSS here ---*/
+
+    
+
+}
+
+    body {
+        -webkit-text-size-adjust:none;
+        font-family:Helvetica, Arial, Verdana, sans-serif;
+        /*padding:5px;*/
+        margin: 0;
+        padding: 0;
+        width: 320px;
+        height: 520px;
+        background-color: black;
+    }
+    
+/*    div {
+        clear:both!important;
+        display:block!important;
+        width:100%!important;
+        float:none!important;
+        margin:0!important;
+        padding:0!important;
+    }*/
+    
+    #wrap {
+        width: 320px;
+        height: 480px;
+        background: url(../images/background-light.png) scroll no-repeat;
+        position: relative;
+    }
+    
+    #cheetopult {
+        position: absolute;
+        top: -30px;
+        left: 0;
+        width: 320px;
+        height: 480px;
+        background: url(../images/cheetopult-sprite.png) 0 0 scroll no-repeat;
+    }
+    
+        
+    
+    #bowlContainer {
+        position: absolute;
+        top: 275px;
+        left: 113px;
+        
+        width: 73px;
+        height: 80px;
+    }
+    
+    #cheetos {
+        position: absolute;
+        top: 385px;
+        left: 0;
+    }
+    
+    #cheetoSelectGreen {
+        top: 0;
+        left: 28px;
+    }
+    
+    #cheetoSelectOrange {
+        top: 0;
+        left: 243px;
+    }
+    
+    #cheetoSelectRed {
+        top: 0;
+        left: 96px;
+    }
+    
+    #cheetoSelectYellow {
+        top: 0;
+        left: 170px;
+    }
+    
+    .cheeto {
+        display: block;
+        position: absolute;
+        width: 73px;
+        height: 80px;
+    }
+    
+    .green {
+        background: url(../images/green.png) scroll no-repeat;
+    }
+    
+    .red {
+        background: url(../images/red.png) scroll no-repeat;
+    }
+    
+    .yellow {
+        background: url(../images/yellow.png) scroll no-repeat;
+    }
+    
+    .orange {
+        background: url(../images/orange.png) scroll no-repeat;
+    }
+    
+    /* USE FOR DEBUGGING */
+    #message {
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+        position: absolute;
+        top: 100px;
+        left: 50px;
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+        font-weight: 300;
+        
+        display: none;
+    }
+    
+    .animatingFast {
+        -webkit-transform: translateZ(0);
+        -webkit-font-smoothing: antialiased;
+        -webkit-animation-fill-mode: forwards;
+        -webkit-animation: fireCheeto 0.25s linear 0s;
+    }
+    
+    .animatingSlow {
+        -webkit-transform: translateZ(0);
+        -webkit-font-smoothing: antialiased;
+        -webkit-animation-fill-mode: forwards;
+        -webkit-animation: fireCheeto 1s linear 0s;
+    }
+    
+    .animatingJustRight {
+        -webkit-transform: translateZ(0);
+        -webkit-font-smoothing: antialiased;
+        -webkit-animation-fill-mode: forwards;
+        -webkit-animation: fireCheeto 0.75s linear 0s;
+    }
+
+        @-webkit-keyframes fireCheeto {
+            
+            0%      { background-position: 0 0; }
+            12.49%  { background-position: 0 0; }
+            12.5%   { background-position: -320px 0; }
+            24.99%  { background-position: -320px 0; }
+            25%     { background-position: -640px 0; }
+            37.49%  { background-position: -640px 0; }
+            37.5%   { background-position: -960px 0; }
+            50%     { background-position: -960px 0; }
+            62.5%   { background-position: -960px 0; }
+            74.99%  { background-position: -960px 0; }
+            75%     { background-position: -640px 0; }
+            87.49%  { background-position: -640px 0; }
+            87.5%   { background-position: -320px 0; }
+            99.99%  { background-position: -320px 0; }
+            100%    { background-position: 0 0; }
+            
+        }
+    
+    
