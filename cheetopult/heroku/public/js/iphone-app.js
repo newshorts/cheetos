@@ -8,6 +8,7 @@
         
         // set global accel value
         var accel =  { x: 0, y: 0, z: 0 }, tilt = { alpha: 0, beta: 0, gamma: 0 };
+        var selectedState = false, selectedPNG = '';
         
         $('.cheeto').on('touchstart', function(evt) {
             evt.preventDefault();
@@ -18,16 +19,22 @@
 //            console.log(evt.originalEvent.touches[0].pageX);
             
             // can still target elements with regular jquery calls
-            var pngName = $(this).data('png');
+            selectedPNG = $(this).data('png');
             var randomRotation = Math.floor(Math.random() * 89) + 1;
             
+            if(!selectedState) {
+                $('#bowlContainer').css({
+                    'background' : 'url(../images/'+selectedPNG+') scroll no-repeat',
+                    '-webkit-transform' : 'rotate('+randomRotation+'deg)'
+                });
 
+                $('#message').css({
+                    'background-position' : '0px -60px'
+                });
+
+                selectedState = true;
+            }
             
-            $('#bowlContainer').css({
-                'background' : 'url(../images/'+pngName+') scroll no-repeat',
-                '-webkit-transform' : 'rotate('+randomRotation+'deg)'
-            });
-
         });
         
         $(window).on('devicemotion', function() {
@@ -37,23 +44,37 @@
 //            accel.y = event.acceleration.y.toFixed(2);
             accel.z = event.acceleration.z.toFixed(2);
             
-            // forward is a negative acceleration so we are looking for negative values here
-            if(accel.z < -12 && accel.z > -17) {
-                $('#message').html('<p>Small: ' + Math.abs(accel.z) + '</p>');
-                socket.emit('accel', { z : accel.z });
-                $('#cheetopult').addClass('animatingSlow');
-                flyingCheeto(0.35);
-            } else if(accel.z < -17 && accel.z > -19) {
-                $('#message').html('<p>Just right!: ' + Math.abs(accel.z) + '</p>');
-                socket.emit('accel', { z : accel.z });
-                $('#cheetopult').addClass('animatingJustRight');
-                flyingCheeto(0.35);
-            } else if(accel.z < -19) {
-                $('#message').html('<p>Too Much!: ' + Math.abs(accel.z) + '</p>');
-                socket.emit('accel', { z : accel.z });
-                $('#cheetopult').addClass('animatingFast');
-                flyingCheeto(0.35);
+            // if we have a cheeto selected
+            if(selectedState) {
+                // forward is a negative acceleration so we are looking for negative values here
+                if(accel.z < -6 && accel.z > -12) {
+                    $('#messageDebug').html('<p>Small: ' + Math.abs(accel.z) + '</p>');
+                    socket.emit('accel', { z : accel.z, png: selectedPNG });
+                    $('#message').css({
+                        'background-position' : '0px -120px'
+                    });
+                    $('#cheetopult').addClass('animatingSlow');
+                    flyingCheeto(0.35);
+                } else if(accel.z < -12 && accel.z > -15) {
+                    $('#messageDebug').html('<p>Just right!: ' + Math.abs(accel.z) + '</p>');
+                    socket.emit('accel', { z : accel.z, png: selectedPNG });
+                    $('#message').css({
+                        'background-position' : '0px -90px'
+                    });
+                    $('#cheetopult').addClass('animatingJustRight');
+                    flyingCheeto(0.35);
+                } else if(accel.z < -15) {
+                    $('#messageDebug').html('<p>Too Much!: ' + Math.abs(accel.z) + '</p>');
+                    socket.emit('accel', { z : accel.z, png: selectedPNG });
+                    $('#message').css({
+                        'background-position' : '0px -30px'
+                    });
+                    $('#cheetopult').addClass('animatingFast');
+                    flyingCheeto(0.35);
+                }
             }
+            
+                
             
         });
         
@@ -64,7 +85,7 @@
         var flyingCheeto = function(seconds) {
             
             $('#bowlContainer').css({ 
-                'top' : '-275px',
+                'top' : '-170px',
                 'opacity' : 0,
                 '-webkit-transition' : 'top '+seconds+'s ease-in, opacity 0.5s linear'
             });
@@ -73,14 +94,22 @@
                 
                 $('#bowlContainer').css({
                     'background' : 'none',
-                    'top' : '275px',
+                    'top' : '170px',
                     'opacity' : 1,
                     '-webkit-transition' : 'none'
                 });
                 
+                $('#message').css({
+                    'background-position' : '0 0'
+                });
+                
+                selectedState = false;
+                
             }, 1000);
             
         };
+        
+        
         
         // DEPRECATED - because we went with accel instead
 //        $(window).on('deviceorientation', function() {

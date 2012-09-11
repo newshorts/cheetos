@@ -18,17 +18,118 @@
             var theFlash;
             
             socket.on('hi', function (data) {
+                socket.emit('hi back', { connection: 'desktop' });
+            });
+            
+            /*
+            *  NOTE: this is where my game logic should come into play and send commands to the flash file
+            **/
+            socket.on('accel', function(data) {
+                console.log(data);
+                var type = searchPNGName(data.png);
+//                console.log(type);
                 
-                socket.emit('hi back', { connection: 'established duh' });
+                var distance = determineDistance(data.z);
+//                theFlash.cheetoRed();
+
+                initiateFlash(type, distance);
+
+                console.log('type: ' + type + ' distance: ' + distance);
                 
             });
             
-            socket.on('accel', function() {
-                theFlash.cheetoRed();
+            socket.on('new user', function(data) {
+                theFlash.iphoneConnected();
             });
+            
+            var initiateFlash = function(t, d) {
+                switch(t) {
+                    case 'red':
+                        switch(d) {
+                            case 'close':
+                                theFlash.redClose();
+                                break;
+                            case 'mouth':
+                                theFlash.redMouth();
+                                break;
+                            case 'far':
+                                theFlash.redFar();
+                                break;
+                        }
+                        break;
+                    case 'green':
+                        switch(d) {
+                            case 'close':
+                                theFlash.greenClose();
+                                break;
+                            case 'mouth':
+                                theFlash.greenMouth();
+                                break;
+                            case 'far':
+                                theFlash.greenFar();
+                                break;
+                        }
+                        break;
+                    case 'yellow':
+                        switch(d) {
+                            case 'close':
+                                theFlash.yellowClose();
+                                break;
+                            case 'mouth':
+                                theFlash.yellowMouth();
+                                break;
+                            case 'far':
+                                theFlash.yellowFar();
+                                break;
+                        }
+                        break;
+                    case 'orange':
+                        switch(d) {
+                            case 'close':
+                                theFlash.orangeClose();
+                                break;
+                            case 'mouth':
+                                theFlash.orangeMouth();
+                                break;
+                            case 'far':
+                                theFlash.orangeFar();
+                                break;
+                        }
+                        break;
+                } // end switch
+//                theFlash.playFlyingCheeto(t,d);
+            };
+            
+            var determineDistance = function(z) {
+                
+                z = parseFloat(z);
+                
+                // close, far, mouth
+                if(z < -6 && z > -12) {
+                    return 'close';
+                } else if(z < -12 && z > -15) {
+                    return 'mouth';
+                } else if(z < -15) {
+                    return 'far';
+                }
+            };
+            
+            var searchPNGName = function(pngName) {
+                if(pngName.search('red') > -1) {
+                    return 'red';
+                } else if(pngName.search('green') > -1) {
+                    return 'green';
+                } else if(pngName.search('yellow') > -1) {
+                    return 'yellow';
+                } else if(pngName.search('orange') > -1) {
+                    return 'orange';
+                }
+            };
             
             $(window).load(function() {
                 theFlash = document.getElementById("theFlash");
+                
+                console.log(theFlash);
                 
 //                setInterval(function() {
 //                    
@@ -45,27 +146,30 @@
         </script>
     </head>
     <body>
-        <div id="wrap">
+        <div id="wrap" style="width: 100%; height: 100%;">
+            
             <!--[if !IE]>-->
-            <object id="theFlash" type="application/x-shockwave-flash" data="cheetopult.swf" width="1024" height="576">
-                    <param name="movie" value="cheetopult.swf" />
-                    <param name="quality" value="high" />
-                    <param name="bgcolor" value="#ffffff" />
-                    <param name="play" value="true" />
-                    <param name="loop" value="true" />
-                    <param name="wmode" value="window" />
-                    <param name="scale" value="showall" />
-                    <param name="menu" value="true" />
-                    <param name="devicefont" value="false" />
-                    <param name="salign" value="" />
-                    <param name="allowScriptAccess" value="always" />
+            <object id="theFlash"  type="application/x-shockwave-flash" data="cheetopult.swf" width="100%" height="100%">
+                <param name="movie" value="cheetopult.swf" />
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="play" value="true" />
+                <param name="loop" value="true" />
+                <param name="wmode" value="window" />
+                <param name="scale" value="showall" />
+                <param name="menu" value="true" />
+                <param name="devicefont" value="false" />
+                <param name="salign" value="" />
+                <param name="allowScriptAccess" value="always" />
             <!--<![endif]-->
-                    <a href="http://www.adobe.com/go/getflash">
-                            <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
-                    </a>
+                <a href="http://www.adobe.com/go/getflash">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                </a>
             <!--[if !IE]>-->
             </object>
             <!--<![endif]-->
+            
+            
         </div>
     </body>
 </html>

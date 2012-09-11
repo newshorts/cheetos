@@ -35,7 +35,12 @@ io.sockets.on('connection', function(socket) {
     socket.emit('hi', { connection: 'established' });
     
     socket.on('hi back', function(data) {
-        console.log(data);
+        
+        if(data.connection == "iphone") {
+            // notify desktop of a connection
+            socket.broadcast.emit('new user', data);
+        }
+        
     });
     
     socket.on('gyro', function(data) {

@@ -24,7 +24,7 @@ root {
         margin: 0;
         padding: 0;
         width: 320px;
-        height: 520px;
+        height: 356px;
         background-color: black;
     }
     
@@ -39,8 +39,8 @@ root {
     
     #wrap {
         width: 320px;
-        height: 480px;
-        background: url(../images/background-light.png) scroll no-repeat;
+        height: 356px;
+        background: url(../images/background-light-712.png) scroll no-repeat;
         position: relative;
     }
     
@@ -49,72 +49,63 @@ root {
         top: -30px;
         left: 0;
         width: 320px;
-        height: 480px;
-        background: url(../images/cheetopult-sprite.png) 0 0 scroll no-repeat;
+        height: 356px;
+        background: url(../images/cheetopult-sprite-712.png) 0 0 scroll no-repeat;
     }
     
         
     
     #bowlContainer {
         position: absolute;
-        top: 275px;
-        left: 113px;
+        top: 170px;
+        left: 131px;
         
-        width: 73px;
-        height: 80px;
+        width: 54px;
+        height: 60px;
     }
     
     #cheetos {
         position: absolute;
-        top: 385px;
-        left: 0;
+        top: 295px;
+        left: 59px;
+        
+        width: 207px;
+        height: 60px;
+        background: url(../images/cheetosSelection.png) scroll no-repeat;
     }
     
     #cheetoSelectGreen {
         top: 0;
-        left: 28px;
+        left: 50px;
     }
     
     #cheetoSelectOrange {
         top: 0;
-        left: 243px;
+        left: 0px;
     }
     
     #cheetoSelectRed {
         top: 0;
-        left: 96px;
+        left: 150px;
     }
     
     #cheetoSelectYellow {
         top: 0;
-        left: 170px;
+        left: 100px;
     }
     
     .cheeto {
         display: block;
         position: absolute;
-        width: 73px;
-        height: 80px;
-    }
-    
-    .green {
-        background: url(../images/green.png) scroll no-repeat;
-    }
-    
-    .red {
-        background: url(../images/red.png) scroll no-repeat;
-    }
-    
-    .yellow {
-        background: url(../images/yellow.png) scroll no-repeat;
-    }
-    
-    .orange {
-        background: url(../images/orange.png) scroll no-repeat;
+        width: 50px;
+        height: 60px;
+        
+/*        background-color: red;
+        opacity: 0.5;*/
     }
     
     /* USE FOR DEBUGGING */
-    #message {
+    #messageDebug {
         color: white;
         font-weight: bold;
         font-size: 24px;
@@ -125,6 +116,17 @@ root {
         font-weight: 300;
         
         display: none;
+    }
+    
+    #message {
+        width: 189px;
+        height: 30px;
+        
+        position: absolute;
+        top: 250px;
+        left: 63px;
+        
+        background: url(../images/messages-sprite-712.png) 0 0 scroll no-repeat;
     }
     
     .animatingFast {
