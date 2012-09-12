@@ -22,7 +22,7 @@
             selectedPNG = $(this).data('png');
             var randomRotation = Math.floor(Math.random() * 89) + 1;
             
-            if(!selectedState) {
+//            if(!selectedState) {
                 $('#bowlContainer').css({
                     'background' : 'url(../images/'+selectedPNG+') scroll no-repeat',
                     '-webkit-transform' : 'rotate('+randomRotation+'deg)'
@@ -33,7 +33,7 @@
                 });
 
                 selectedState = true;
-            }
+//            }
             
         });
         
@@ -95,21 +95,32 @@
                 $('#bowlContainer').css({
                     'background' : 'none',
                     'top' : '170px',
-                    'opacity' : 1,
-                    '-webkit-transition' : 'none'
-                });
-                
-                $('#message').css({
-                    'background-position' : '0 0'
+                    'opacity' : 0
                 });
                 
                 selectedState = false;
                 
-            }, 1000);
+                setTimeout(function() {
+                    
+                    var randomRotation = Math.floor(Math.random() * 89) + 1;
+                    
+                    $('#bowlContainer').css({
+                        'opacity' : 1,
+                        'background' : 'url(../images/'+selectedPNG+') scroll no-repeat',
+                        '-webkit-transform' : 'rotate('+randomRotation+'deg)'
+                    });
+
+                    $('#message').css({
+                        'background-position' : '0 -60px'
+                    });
+                    
+                    selectedState = true;
+                    
+                }, 500);
+                
+            }, 800);
             
         };
-        
-        
         
         // DEPRECATED - because we went with accel instead
 //        $(window).on('deviceorientation', function() {

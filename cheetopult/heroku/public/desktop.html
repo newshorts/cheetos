@@ -26,79 +26,33 @@
             **/
             socket.on('accel', function(data) {
                 console.log(data);
-                var type = searchPNGName(data.png);
+                var color = searchPNGName(data.png);
 //                console.log(type);
                 
                 var distance = determineDistance(data.z);
 //                theFlash.cheetoRed();
 
-                initiateFlash(type, distance);
+//                initiateFlash(color, distance);
+                
+                theFlash.flyingCheeto(color,distance);
+                
 
-                console.log('type: ' + type + ' distance: ' + distance);
+                console.log('type: ' + color + ' distance: ' + distance);
                 
             });
             
             socket.on('new user', function(data) {
-                theFlash.iphoneConnected();
+                
+                if(data.connection == 'iphone') {
+                    theFlash.iphoneConnected();
+                }
+                
             });
             
-            var initiateFlash = function(t, d) {
-                switch(t) {
-                    case 'red':
-                        switch(d) {
-                            case 'close':
-                                theFlash.redClose();
-                                break;
-                            case 'mouth':
-                                theFlash.redMouth();
-                                break;
-                            case 'far':
-                                theFlash.redFar();
-                                break;
-                        }
-                        break;
-                    case 'green':
-                        switch(d) {
-                            case 'close':
-                                theFlash.greenClose();
-                                break;
-                            case 'mouth':
-                                theFlash.greenMouth();
-                                break;
-                            case 'far':
-                                theFlash.greenFar();
-                                break;
-                        }
-                        break;
-                    case 'yellow':
-                        switch(d) {
-                            case 'close':
-                                theFlash.yellowClose();
-                                break;
-                            case 'mouth':
-                                theFlash.yellowMouth();
-                                break;
-                            case 'far':
-                                theFlash.yellowFar();
-                                break;
-                        }
-                        break;
-                    case 'orange':
-                        switch(d) {
-                            case 'close':
-                                theFlash.orangeClose();
-                                break;
-                            case 'mouth':
-                                theFlash.orangeMouth();
-                                break;
-                            case 'far':
-                                theFlash.orangeFar();
-                                break;
-                        }
-                        break;
-                } // end switch
-//                theFlash.playFlyingCheeto(t,d);
-            };
+//            var initiateFlash = function(c, d) {
+//
+//                theFlash.flyingCheeto(c,d);
+//            };
             
             var determineDistance = function(z) {
                 
@@ -127,6 +81,7 @@
             };
             
             $(window).load(function() {
+                
                 theFlash = document.getElementById("theFlash");
                 
                 console.log(theFlash);
@@ -149,7 +104,7 @@
         <div id="wrap" style="width: 100%; height: 100%;">
             
             <!--[if !IE]>-->
-            <object id="theFlash"  type="application/x-shockwave-flash" data="cheetopult.swf" width="100%" height="100%">
+            <object id="theFlash" type="application/x-shockwave-flash" data="cheetopult.swf" width="100%" height="100%">
                 <param name="movie" value="cheetopult.swf" />
                 <param name="quality" value="high" />
                 <param name="bgcolor" value="#ffffff" />
@@ -168,7 +123,6 @@
             <!--[if !IE]>-->
             </object>
             <!--<![endif]-->
-            
             
         </div>
     </body>
