@@ -38,13 +38,9 @@
         });
         
         $(window).on('devicemotion', function() {
-            // going with z since it gives us a good range
 
-//            accel.x = event.acceleration.x.toFixed(2);
-//            accel.y = event.acceleration.y.toFixed(2);
             accel.z = event.acceleration.z.toFixed(2);
             
-            // if we have a cheeto selected
             if(selectedState) {
                 // forward is a negative acceleration so we are looking for negative values here
                 if(accel.z < -6 && accel.z > -12) {
@@ -74,13 +70,50 @@
                 }
             }
             
-                
-            
         });
         
         $('#cheetopult').on('animationend webkitAnimationEnd', function(evt) {
             $(this).removeClass();
         });
+        
+        var pollForMovement = function() {
+            setTimeout(function() {
+                // if we have a cheeto selected
+                if(selectedState) {
+                    // forward is a negative acceleration so we are looking for negative values here
+                    if(accel.z < -6 && accel.z > -12) {
+                        $('#messageDebug').html('<p>Small: ' + Math.abs(accel.z) + '</p>');
+                        socket.emit('accel', { z : accel.z, png: selectedPNG });
+                        $('#message').css({
+                            'background-position' : '0px -120px'
+                        });
+                        $('#cheetopult').addClass('animatingSlow');
+                        flyingCheeto(0.35);
+                    } else if(accel.z < -12 && accel.z > -15) {
+                        $('#messageDebug').html('<p>Just right!: ' + Math.abs(accel.z) + '</p>');
+                        socket.emit('accel', { z : accel.z, png: selectedPNG });
+                        $('#message').css({
+                            'background-position' : '0px -90px'
+                        });
+                        $('#cheetopult').addClass('animatingJustRight');
+                        flyingCheeto(0.35);
+                    } else if(accel.z < -15) {
+                        $('#messageDebug').html('<p>Too Much!: ' + Math.abs(accel.z) + '</p>');
+                        socket.emit('accel', { z : accel.z, png: selectedPNG });
+                        $('#message').css({
+                            'background-position' : '0px -30px'
+                        });
+                        $('#cheetopult').addClass('animatingFast');
+                        flyingCheeto(0.35);
+                    }
+                }
+                
+                pollForMovement();
+            }, 100);
+        }
+        
+        // added but I think im going to refine to one shot programmatically instead of another loop
+        //pollForMovement();
         
         var flyingCheeto = function(seconds) {
             

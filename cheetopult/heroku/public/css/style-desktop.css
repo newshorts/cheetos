@@ -12,9 +12,12 @@ root {
 
 body {
     background: black;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 #wrap {
-    width: 1024px;
-    margin: 50px auto;
+    /*width: 1024px;*/
+    /*margin: 50px auto;*/
 }

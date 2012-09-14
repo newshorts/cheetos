@@ -10,6 +10,9 @@ var fs = require('fs'),
     io = require('socket.io').listen(app);
     
 var port = process.env.PORT || 5000;
+
+var recentConnection = false;
+
 app.listen(port, function() {
     console.log("Listening on " + port);
 });
@@ -50,7 +53,17 @@ io.sockets.on('connection', function(socket) {
     
     socket.on('accel', function(data) {
         console.log(data);
-        socket.broadcast.emit('accel', data);
+        if(recentConnection) {
+            // do nothing here
+        } else {
+            socket.broadcast.emit('accel', data);
+            recentConnection = true;
+            setTimeout(function() {
+                recentConnection = false;
+            }, 1000);
+        }
+//        socket.broadcast.emit('accel', data);
+        
     });
     
 });
