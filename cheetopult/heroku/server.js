@@ -60,7 +60,7 @@ io.sockets.on('connection', function(socket) {
             recentConnection = true;
             setTimeout(function() {
                 recentConnection = false;
-            }, 1000);
+            }, 1500);
         }
 //        socket.broadcast.emit('accel', data);
         

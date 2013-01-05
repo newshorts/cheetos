@@ -14,8 +14,95 @@
         <script src="js/requestAnimationFrame.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
+               /*
+                * jQuery Plugin: externalInterface
+                * Version 1.0
+                *
+                * Copyright (c) 2010 David Comeau (http://www.davecomeau.net)
+                * Licensed jointly under the GPL and MIT licenses.
+                *
+                */
+
+               (function($) 
+               {
+                       $.fn.externalInterface = function(args)
+                       {
+                               this.each(function()
+                               {
+                                       if(typeof(args.method) != 'undefined')
+                                       {
+                                               try
+                                               {
+                                                       if(typeof(args.args) != 'undefined')
+                                                       {
+                                                               var data = this[args.method](args.args);
+                                                       }
+                                                       else
+                                                       {
+                                                               var data = this[args.method]();
+                                                       }
+
+                                                       if(typeof(args.success) != 'undefined')
+                                                       {
+                                                               args.success(data);
+                                                       }
+                                               }
+                                               catch(error)
+                                               {
+                                                       if(typeof(args.error) != 'undefined')
+                                                       {
+                                                               args.error(error);
+                                                       }
+                                               }
+                                       }
+                               });
+
+                               return this;
+                       };
+               })(jQuery);
+        </script>
+        <script>
             var socket = io.connect('/');
             var theFlash;
+            var flashReady;
+//            var flashReady = false;
+
+            var thisMovie = function (movieName) {
+                return document.getElementById("theFlash");
+            }
+            
+//            var checkDefined = function() {
+//                theFlash = document.getElementById("theFlash");
+//                if(typeof theFlash != "undefined" && typeof theFlash.iphoneConnected != "undefined") {
+//                    console.log('flash and method defined');
+//                    return true;
+//                } else if(typeof theFlash != "undefined" && typeof theFlash.iphoneConnected == "undefined") {
+//                    console.log('theFlash is defined but the method is not');
+//                    return false;
+//                } else {
+//                    console.log('all are undefined and were totally fucked');
+//                    return false;
+//                }
+//            }
+            
+            var iphoneConnected = function () {
+//                thisMovie("theFlash").iphoneConnected();
+
+                if(true) {
+                    theFlash.iphoneConnected();
+                }
+                
+            }
+            
+            var flyingCheeto = function (color, distance) {
+//                thisMovie("theFlash").flyingCheeto(color, distance);
+
+                console.dir(theFlash.flyingCheeto);
+
+                if(true) {
+                    theFlash.flyingCheeto(color, distance);
+                }
+            }
             
             socket.on('hi', function (data) {
                 socket.emit('hi back', { connection: 'desktop' });
@@ -27,27 +114,72 @@
             socket.on('accel', function(data) {
                 console.log(data);
                 var color = searchPNGName(data.png);
-//                console.log(type);
                 
                 var distance = determineDistance(data.z);
-//                theFlash.cheetoRed();
-
-//                initiateFlash(color, distance);
-                
-                theFlash.flyingCheeto(color,distance);
-                
 
                 console.log('type: ' + color + ' distance: ' + distance);
                 
+//                callFlyingCheeto(color, distance);
+
+                flyingCheeto(color, distance);
+
+                
+                
             });
+            
+//            function callFlyingCheeto(color, distance) {
+//                
+//                if(typeof theFlash.flyingCheeto != "undefined") {
+//                    theFlash.flyingCheeto(color,distance);
+//                } else {
+//                    setTimeout(function() {
+//                        console.log('timing out because we couldnt find the flash object');
+//                        theFlash = document.getElementById("theFlash");
+//                        console.dir(theFlash);
+//                        callFlyingCheeto(color, distance);
+//                    }, 200);
+//
+//                }
+//                
+//            }
             
             socket.on('new user', function(data) {
                 
                 if(data.connection == 'iphone') {
-                    theFlash.iphoneConnected();
+//                    callIphoneConnected();
+                    iphoneConnected();
                 }
                 
             });
+            
+            
+            
+            
+            
+//            function callIphoneConnected() {
+//                if(typeof theFlash.iphoneConnected != "undefined") {
+//                    theFlash.iphoneConnected();
+//                } else {
+//                    setTimeout(function() {
+//                        theFlash = document.getElementById("theFlash");
+//                        console.dir(theFlash);
+//                        theFlash.iphoneConnected();
+//                    }, 200);
+//
+//                }
+//            }
+            
+            function flashIsReady() {
+                console.log('flash is ready');
+                flashReady = true;
+                
+                setTimeout(function() {
+                    flashReady = false;
+                }, 25);
+                
+                return true;
+//                flashReady = true;
+            }
             
 //            var initiateFlash = function(c, d) {
 //
@@ -86,6 +218,8 @@
                 
                 console.log(theFlash);
                 
+                console.dir(document);
+                
 //                setInterval(function() {
 //                    
 //                    if(typeof theFlash != "undefined") {
@@ -98,11 +232,12 @@
 //                    console.log("playing cheetoRed()");
 //                }, 5000);
             });
-        </script>
-    </head>
-    <body>
-        <div id="wrap" style="width: 100%; height: 100%;">
             
+            /*
+             *  old embed code
+             *  
+             *  
+             *  
             <!--[if !IE]>-->
             <object id="theFlash" type="application/x-shockwave-flash" data="cheetopult2.swf" width="100%" height="100%">
                 <param name="movie" value="cheetopult2.swf" />
@@ -111,6 +246,72 @@
                 <param name="play" value="true" />
                 <param name="loop" value="true" />
                 <param name="wmode" value="window" />
+                <param name="scale" value="noborder" />
+                <param name="menu" value="true" />
+                <param name="devicefont" value="false" />
+                <param name="salign" value="" />
+                <param name="allowScriptAccess" value="always" />
+            <!--<![endif]-->
+                <a href="http://www.adobe.com/go/getflash">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                </a>
+            <!--[if !IE]>-->
+            </object>
+            <!--<![endif]-->
+             *
+             *
+             *
+             <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100%" height="100%" id="cheetopult2" align="middle">
+                <param name="movie" value="cheetopult2.swf" />
+                <param name="quality" value="best" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="play" value="true" />
+                <param name="loop" value="true" />
+                <param name="wmode" value="gpu" />
+                <param name="scale" value="noborder" />
+                <param name="menu" value="true" />
+                <param name="devicefont" value="false" />
+                <param name="salign" value="" />
+                <param name="allowScriptAccess" value="always" />
+                <!--[if !IE]>-->
+                <object id="theFlash" type="application/x-shockwave-flash" data="cheetopult2.swf" width="100%" height="100%">
+                    <param name="movie" value="cheetopult2.swf" />
+                    <param name="quality" value="best" />
+                    <param name="bgcolor" value="#ffffff" />
+                    <param name="play" value="true" />
+                    <param name="loop" value="true" />
+                    <param name="wmode" value="gpu" />
+                    <param name="scale" value="noborder" />
+                    <param name="menu" value="true" />
+                    <param name="devicefont" value="false" />
+                    <param name="salign" value="" />
+                    <param name="allowScriptAccess" value="always" />
+                <!--<![endif]-->
+                    <a href="http://www.adobe.com/go/getflash">
+                            <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                    </a>
+                <!--[if !IE]>-->
+                </object>
+                <!--<![endif]-->
+            </object>
+             *
+             *
+             **/
+        </script>
+    </head>
+    <body>
+        <div id="wrap" style="width: 100%; height: 100%;">
+            
+            
+            
+            <!--[if !IE]>-->
+            <object id="theFlash" type="application/x-shockwave-flash" data="cheetopult2.swf" width="100%" height="100%">
+                <param name="movie" value="cheetopult2.swf" />
+                <param name="quality" value="best" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="play" value="true" />
+                <param name="loop" value="true" />
+                <param name="wmode" value="gpu" />
                 <param name="scale" value="noborder" />
                 <param name="menu" value="true" />
                 <param name="devicefont" value="false" />
